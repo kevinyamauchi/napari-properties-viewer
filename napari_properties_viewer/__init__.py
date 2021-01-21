@@ -3,8 +3,4 @@ try:
 except ImportError:
     __version__ = "unknown"
 
-# replace the asterisk with named imports
-from .napari_properties_viewer import napari_get_reader
-
-
-__all__ = ["napari_get_reader"]
+from ._hookimpl import napari_experimental_provide_dock_widget
