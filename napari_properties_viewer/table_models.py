@@ -1,10 +1,14 @@
 from qtpy.QtCore import QAbstractTableModel, Qt
 
 
-class ArrayTableModel(QAbstractTableModel):
+class ListTableModel(QAbstractTableModel):
+    """Model for the QTableView widget. The table should be stored as a 2D List
 
+    Based on this tutorial:
+    https://www.learnpyqt.com/tutorials/qtableview-modelviews-numpy-pandas/
+    """
     def __init__(self, data):
-        super(ArrayTableModel, self).__init__()
+        super(ListTableModel, self).__init__()
         self._data = data
 
     def data(self, index, role):
@@ -21,7 +25,10 @@ class ArrayTableModel(QAbstractTableModel):
 
 
 class DictTableModel(QAbstractTableModel):
-
+    """Dictionary model for the QTableView widget. The table should be stored as a dictionary
+    where each key a column name and the values are all rows in that column stored as an array.
+    This model is directly compatible with the napari layer properties
+    """
     def __init__(self, data):
         super(DictTableModel, self).__init__()
         self._data = data
