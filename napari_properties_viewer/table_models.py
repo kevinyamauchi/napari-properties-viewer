@@ -49,8 +49,12 @@ class DictTableModel(QAbstractTableModel):
         # section is the index of the column/row.
         if role == Qt.DisplayRole:
             if orientation == Qt.Horizontal:
-                keys = list(self._data.keys())
-                return str(keys[section])
+                if len(self._data.keys()) > 0:
+                    keys = list(self._data.keys())
+                    header = str(keys[section])
+                else:
+                    header = ''
+                return header
 
             if orientation == Qt.Vertical:
                 return str(section)
