@@ -8,6 +8,7 @@
 
 A viewer for napari layer properties
 
+![image](resources/properties_viewer.gif)
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using with [@napari]'s [cookiecutter-napari-plugin] template.
