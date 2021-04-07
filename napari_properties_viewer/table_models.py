@@ -34,11 +34,28 @@ class DictTableModel(QAbstractTableModel):
         self._data = data
 
     def data(self, index, role):
-        if role == Qt.DisplayRole:
+        if role in [Qt.DisplayRole, Qt.EditRole]:
             keys = list(self._data.keys())
             col = self._data[keys[index.column()]]
             value = col[index.row()]
             return str(value)
+
+    def setData(self, index, value, role):
+        if not index.isValid():
+            return False
+        if role != Qt.EditRole:
+            return False
+
+        keys = list(self._data.keys())
+        col = self._data[keys[index.column()]]
+        row = index.row()
+
+        col[row] = value
+        self.dataChanged.emit(index, index)
+        return True
+
+    def flags(self, index):
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
 
     def rowCount(self, index):
 
