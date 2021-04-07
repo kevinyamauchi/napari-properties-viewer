@@ -1,5 +1,7 @@
 from qtpy.QtCore import QAbstractTableModel, Qt
 
+from .utils import str2prop
+
 
 class ListTableModel(QAbstractTableModel):
     """Model for the QTableView widget. The table should be stored as a 2D List
@@ -49,10 +51,13 @@ class DictTableModel(QAbstractTableModel):
         keys = list(self._data.keys())
         col = self._data[keys[index.column()]]
         row = index.row()
-
-        col[row] = value
-        self.dataChanged.emit(index, index)
-        return True
+        converted_value = str2prop(value, col.dtype)
+        if converted_value is not None:
+            col[row] = converted_value
+            self.dataChanged.emit(index, index)
+            return True
+        else:
+            return False
 
     def flags(self, index):
         return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
