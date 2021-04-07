@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from qtpy.QtCore import QAbstractTableModel, Qt
 
 from .utils import str2prop
@@ -11,7 +13,7 @@ class ListTableModel(QAbstractTableModel):
     """
     def __init__(self, data):
         super(ListTableModel, self).__init__()
-        self._data = data
+        self._data = deepcopy(data)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
