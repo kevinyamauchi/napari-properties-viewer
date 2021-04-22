@@ -1,5 +1,6 @@
+import numpy as np
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QWidget, QComboBox, QTableView, QVBoxLayout
+from qtpy.QtWidgets import QWidget, QComboBox, QTableView, QVBoxLayout, QPushButton
 
 from .table_models import DictTableModel
 
@@ -153,4 +154,7 @@ class QtPropertiesTable(QWidget):
             layer = self.viewer.layers[self.selected_layer]
             with layer.events.properties.blocker():
                 layer.properties = self.table_model._data
-                layer.refresh_colors()
+                if type(layer).__name__ in ['Points', 'Shapes']:
+                    # force a color refresh
+                    layer.refresh_colors()
+
