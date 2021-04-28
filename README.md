@@ -26,6 +26,12 @@ https://napari.org/docs/plugins/index.html
 You can install `napari-properties-viewer` via [pip]:
 
     pip install napari-properties-viewer
+    
+## Using the properties viewer table
+
+1. Open a a napari viewer with a layer with properties (e.g., Points)
+2. View the properties by opening the properties viewer plugin from Plugins menu -> Add dock widget -> napari-propertiews-viewer: properties table
+3. The layer property values are now displayed in the table widget. You can edit the values by double clicking the cell of interest and entering a new value.
 
 ## Contributing
 
