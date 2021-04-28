@@ -1,6 +1,5 @@
-import numpy as np
 from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QWidget, QComboBox, QTableView, QVBoxLayout, QPushButton
+from qtpy.QtWidgets import QWidget, QComboBox, QTableView, QVBoxLayout
 
 from .table_models import DictTableModel
 
