@@ -1,4 +1,8 @@
+from copy import deepcopy
+
 from qtpy.QtCore import QAbstractTableModel, Qt
+
+from .utils import str2prop
 
 
 class ListTableModel(QAbstractTableModel):
@@ -9,7 +13,7 @@ class ListTableModel(QAbstractTableModel):
     """
     def __init__(self, data):
         super(ListTableModel, self).__init__()
-        self._data = data
+        self._data = deepcopy(data)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
@@ -34,11 +38,31 @@ class DictTableModel(QAbstractTableModel):
         self._data = data
 
     def data(self, index, role):
-        if role == Qt.DisplayRole:
+        if role in [Qt.DisplayRole, Qt.EditRole]:
             keys = list(self._data.keys())
             col = self._data[keys[index.column()]]
             value = col[index.row()]
             return str(value)
+
+    def setData(self, index, value, role):
+        if not index.isValid():
+            return False
+        if role != Qt.EditRole:
+            return False
+
+        keys = list(self._data.keys())
+        col = self._data[keys[index.column()]]
+        row = index.row()
+        converted_value = str2prop(value, col.dtype)
+        if converted_value is not None:
+            col[row] = converted_value
+            self.dataChanged.emit(index, index)
+            return True
+        else:
+            return False
+
+    def flags(self, index):
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
 
     def rowCount(self, index):
 

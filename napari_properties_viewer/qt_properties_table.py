@@ -96,10 +96,11 @@ class QtPropertiesTable(QWidget):
                 self.table_model = DictTableModel(layer_properties)
                 self.table.setModel(self.table_model)
 
+                # connect the events
                 if self.selected_layer is not None:
                     self._disconnect_layer_events(self.selected_layer)
                 self._connect_layer_events(layer_name)
-
+                self.table_model.dataChanged.connect(self._on_cell_edit)
                 self.selected_layer = layer_name
             else:
                 print('no properties')
@@ -115,9 +116,9 @@ class QtPropertiesTable(QWidget):
         selected_layer = self.viewer.layers[self.selected_layer]
         layer_properties = selected_layer.properties
 
-        # todo: implement set_data method and events
         self.table_model = DictTableModel(layer_properties)
         self.table.setModel(self.table_model)
+        self.table_model.dataChanged.connect(self._on_cell_edit)
 
     def _connect_layer_events(self, layer_name:str):
         """Connect the selected layer's properties events to
@@ -144,3 +145,15 @@ class QtPropertiesTable(QWidget):
         """
         layer = self.viewer.layers[layer_name]
         layer.events.properties.disconnect(self.update_table)
+
+    def _on_cell_edit(self, event):
+        """Update the connected layer's properties when a cell
+        has been edited"""
+        if self.selected_layer is not None:
+            layer = self.viewer.layers[self.selected_layer]
+            with layer.events.properties.blocker():
+                layer.properties = self.table_model._data
+                if type(layer).__name__ in ['Points', 'Shapes']:
+                    # force a color refresh
+                    layer.refresh_colors()
+
