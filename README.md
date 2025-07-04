@@ -1,3 +1,5 @@
+⚠️ This repo is deprecated and no longer maintained. Since [napari 0.6.2](https://github.com/napari/napari/releases/tag/v0.6.2), there is nicer, built-in feature table widget!
+
 # napari-properties-viewer
 
 [![License](https://img.shields.io/pypi/l/napari-properties-viewer.svg?color=green)](https://github.com/napari/napari-properties-viewer/raw/master/LICENSE)
